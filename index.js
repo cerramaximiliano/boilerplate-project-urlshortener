@@ -28,8 +28,6 @@ function isValidUrl(string) {
 
 app.post('/api/shorturl', (req, res) => {
   const {url} = req.body
-  console.log(url)
-  console.log(isValidUrl(url))
   if (isValidUrl(url)) {
     res.json({
       original_url: url,
@@ -37,7 +35,7 @@ app.post('/api/shorturl', (req, res) => {
     })
   }else{
     res.json({
-      error: "Invalid URL"
+      error: "invalid url"
     })
   }
 
