@@ -16,19 +16,11 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-function isValidUrl(string) {
-  try {
-    new URL(string);
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-
 
 app.post('/api/shorturl', (req, res) => {
+  const urlRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/;
   const {url} = req.body
-  if (isValidUrl(url)) {
+  if ( urlRegex.test(url) ) {
     res.json({
       original_url: url,
       short_url: Math.random()
