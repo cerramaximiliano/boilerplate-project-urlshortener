@@ -14,6 +14,14 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.get('/api/shorturl', (req, res) => {
+  res.json({
+    error: "Invalid URL"
+  })
+});
+
+
+
 // Your first API endpoint
 app.get('/api/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
