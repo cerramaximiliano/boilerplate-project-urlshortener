@@ -47,10 +47,7 @@ app.post('/api/shorturl', (req, res) => {
 
 app.get('/api/shorturl/:url', (req, res) => { 
   const {url} = req.params;
-  console.log(url)
   const findUrl = shortUrl.findIndex(ele => ele == url);
-  console.log(shortUrl)
-  console.log(findUrl)
   if ( findUrl > 0 ) {
     res.redirect(originaUrl[shortUrl.length-1])
   }else {
@@ -58,8 +55,7 @@ app.get('/api/shorturl/:url', (req, res) => {
       error: "No short URL found for the given input"
     })
   }
-
-})
+});
 
 // Your first API endpoint
 app.get('/api/hello', function(req, res) {
