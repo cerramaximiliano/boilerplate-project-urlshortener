@@ -16,22 +16,50 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+const originaUrl = [];
+const shortUrl = [];
+
 
 app.post('/api/shorturl', (req, res) => {
   const urlRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/;
   const {url} = req.body
-  if ( urlRegex.test(url) ) {
+  const findUrlIndex = originaUrl.findIndex(ele => ele === url);
+
+  if ( !url.includes("http://") && !url.includes("https://") ) {
+    return res.json({
+      error: 'invalid url'
+    })
+  }
+  if( findUrlIndex < 0 ) {
+    originaUrl.push(url)
+    shortUrl.push(shortUrl.length + 1)
     res.json({
       original_url: url,
-      short_url: Math.random()
+      short_url: shortUrl.length
     })
   }else{
     res.json({
-      error: "invalid url"
+      original_url: url,
+      short_url: shortUrl[findUrlIndex]
+    })
+  }
+});
+
+app.get('/api/shorturl/:url', (req, res) => { 
+  const {url} = req.params;
+  console.log(url)
+  const findUrl = shortUrl.findIndex(ele => ele == url);
+  console.log(shortUrl)
+  console.log(findUrl)
+  if ( findUrl > 0 ) {
+    res.redirect(originaUrl[shortUrl.length-1])
+  }else {
+    res.json({
+      error: "No short URL found for the given input"
     })
   }
 
-});
+})
 
 // Your first API endpoint
 app.get('/api/hello', function(req, res) {
